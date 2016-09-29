@@ -22,27 +22,26 @@ class Conexao(object):
             print Exception
             
     def encerrar_conexao(self, c):
-        c.close()
         c.commit()
+        c.close()
+        
             
     def recuperar_pontos(self):
         conexao = Conexao().criar_conexao()
         cursor = conexao.cursor()
-        
-        sql = "select id, id_taxista, longitude, latitude from taxistas"
+        day = 02
+        sql = "select id, id_taxista, longitude, latitude from taxistas where extract(day from hora) = {}".format(day)
         
         cursor.execute(sql)
         
         pontosbd = cursor.fetchall()
         pontos = []
         
+        self.encerrar_conexao(conexao)
+        
         for p in pontosbd:
-            ponto = Ponto()
-            ponto.id = p[0]
-            ponto.id_taxista = p[1]
-            ponto.longitudeX = p [2]
-            ponto.latitudeY = p[3]
-            
+            ponto = Ponto(p[0], p[1], p[2], p[3])
             pontos.append(ponto)
             
-        return pontos    
+        
+        return pontos
