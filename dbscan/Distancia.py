@@ -8,11 +8,13 @@ class Distancia(object):
 
 
 
-    def __init__(self, params):
+    def __init__(self):
         '''
         Constructor
         '''
     
     def euclidiana(self, ponto1, ponto2):
-        return sqrt(pow((ponto1.longitudeX - ponto2.longitudeX), 2)
-                        + pow((ponto1.latitudeY - ponto2.latitudeY), 2)) 
+        res = sqrt(pow((ponto1.longitudeX - ponto2.longitudeX), 2)
+                        + pow((ponto1.latitudeY - ponto2.latitudeY), 2))
+        #print "distancia: {}".format(res) 
+        return res 
