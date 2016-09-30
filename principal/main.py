@@ -7,6 +7,7 @@ Created on 22 de set de 2016
 from bancoDeDados.Conexao import Conexao
 from dbscan.Dbscan import Dbscan
 from modelo.Ponto import Ponto
+from arquivosSaida.EscreverArquivo import EscreverArquivo
 
 def main():
     
@@ -35,6 +36,8 @@ def main():
     db = Dbscan()
 
     db.db_scan(data_test, eps, min_points);
+    
+    EscreverArquivo().escrever(data_test)
     
 if __name__ == '__main__':
     main()
