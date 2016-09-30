@@ -13,4 +13,5 @@ class Ponto(object):
         self.latitudeY = latitudeY
         self.visitado = False
         self.pertence_cluster = False
+        self.cluster = -1
         
