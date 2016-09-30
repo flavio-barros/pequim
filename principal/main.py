@@ -12,7 +12,7 @@ from arquivosSaida.EscreverArquivo import EscreverArquivo
 def main():
     
     #H = "select * from taxistas where extract(day from hora) = 02"
-#     data_set = Conexao().recuperar_pontos()
+    #data_set = Conexao().recuperar_pontos()
     eps = 2
     min_points = 2
     
