@@ -3,7 +3,8 @@ Created on 22 de set de 2016
 
 @author: flavio-barros || amanda-sousa
 '''
-from math import sqrt
+from matplotlib.cbook import Null
+import math
 class Distancia(object):
 
 
@@ -14,7 +15,5 @@ class Distancia(object):
         '''
     
     def euclidiana(self, ponto1, ponto2):
-        res = sqrt(pow((ponto1.longitudeX - ponto2.longitudeX), 2)
-                        + pow((ponto1.latitudeY - ponto2.latitudeY), 2))
-        #print "distancia: {}".format(res) 
-        return res 
+        if(ponto1 != Null and ponto2 != Null):
+            return math.hypot(ponto1.longitudeX - ponto2.longitudeX, ponto1.latitudeY - ponto2.latitudeY)
