@@ -15,7 +15,7 @@ class EscreverArquivo(object):
     def escrever(self, lista_pontos):
         c = csv.writer(open("pontos_clusterizados.csv", "wb"))
 #         ["student_id", "id_taxista", "weekday", "latituide", "longitude", "cluster", "iscore"]
-        cabecalho = ["student_id", "id_taxista", "longitude", "latituide", "cluster"]
+        cabecalho = ["student_id", "id_taxista", "longitude", "latitude", "cluster"]
         c.writerow(cabecalho)
         
         for p in lista_pontos:

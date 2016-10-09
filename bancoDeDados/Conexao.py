@@ -6,6 +6,8 @@ Created on 22 de set de 2016
 
 import psycopg2
 from modelo.Ponto import Ponto
+from modelo.Aresta import Aresta
+from gi.overrides.keysyms import cursor
 
 class Conexao(object):
 
@@ -29,7 +31,7 @@ class Conexao(object):
     def recuperar_pontos(self):
         conexao = Conexao().criar_conexao()
         cursor = conexao.cursor()
-        day = 02
+        day = 3
         sql = "select id, id_taxista, longitude, latitude from taxistas where extract(day from hora) = {}".format(day)
         
         cursor.execute(sql)
@@ -45,3 +47,25 @@ class Conexao(object):
             
         
         return pontos
+    
+    def recuperar_arestas(self):
+        conexao = Conexao().criar_conexao()
+        cursor = conexao.cursor()
+        
+        sql = "select v1.longitude, v1.latitude,v2.longitude, v2.latitude, e.distancia from estradas e, vertices v1, vertices v2 where e.origem = v1.id and e.destino = v2.id";
+        cursor.execute(sql)
+       
+        arestasbd = cursor.fetchall()
+        arestas = []
+   
+        self.encerrar_conexao(conexao)
+   
+        for a in arestasbd:
+            aresta = Aresta(a[0], a[1], a[2], a[3], a[4])
+            arestas.append(aresta)
+        return arestas
+               
+       
+        
+        
+        
