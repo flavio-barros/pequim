@@ -14,8 +14,8 @@ def main():
     
     print "Recuperando pontos"
     data_set = Conexao().recuperar_pontos()
-    eps = 0.0005
-    min_points = 25
+    eps = 0.05
+    min_points = 15
     
     print "Recuperando arestas"
     arestas = Conexao().recuperar_arestas()
@@ -25,7 +25,7 @@ def main():
       
     db = Dbscan()
 
-    db.db_scan(data_set, eps, min_points)
+    db.db_scan(data_set, eps, min_points, arestas)
     
     
     EscreverArquivo().escrever(data_set)
