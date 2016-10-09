@@ -35,56 +35,50 @@ class Dbscan(object):
         vizinhos = []
         vizinhos.append(ponto)
         for p in self.pontos:
-            if(not p.pertence_cluster):
-                if(p.id_taxista != ponto.id_taxista):
-                    if (not self.vericar_pertinencia(p, vizinhos)):
-                        if(Distancia().euclidiana(ponto, p) <= eps):
+            if(Distancia().euclidiana(ponto, p) <= eps):
+                if(not p.pertence_cluster):
+                    if(p.id_taxista != ponto.id_taxista):
+                        if (not self.vericar_pertinencia(p, vizinhos)):
                             vizinhos.append(p)
         return vizinhos
     
-    def expandir_cluster(self, ponto, c, eps, min_points, indice_cluster):
+    def expandir_cluster(self, ponto, vizinhos, c, eps, min_points, indice_cluster):
         ponto.pertence_cluster = True
         c.append(ponto)
         ponto.cluster = indice_cluster
-        for p in ponto.vizinhos:
-            p.visitado = True
-            self.visitados+=1;
-            print "{0} de {1} visitados - {2}".format(self.visitados, self.visitas, (100*self.visitados)/self.visitas)
-            vizinhosp = []
-            vizinhosp = self.consultar_regiao(p, eps)
+        for p in vizinhos:
+            if(not p.visitado):
+                p.visitado = True
+                vizinhosp = []
+                vizinhosp = self.consultar_regiao(p, eps)
             
-            if(len(vizinhosp) >= min_points):
-                ponto.vizinhos = self.uniao(ponto.vizinhos, vizinhosp)
-        
+                if(len(vizinhosp) >= min_points):
+                    vizinhos = self.uniao(vizinhos, vizinhosp)
+#                     vizinhos.extend(vizinhosp)
             if(not p.pertence_cluster):
                 p.pertence_cluster = True
                 c.append(p)
                 p.cluster = indice_cluster
     
     def db_scan(self, data_set, eps, min_points):
-        self.visitas = len(data_set)
-        self.visitados = 0
+
         self.pontos = data_set  
+        
         clusters = []  
-        indice_cluster = 0;    
+        indice_cluster = 0;
+        
         for p in data_set:
             if(not p.visitado):
+                print "x"
                 p.visitado = True
-                self.visitados+=1;
-                print "{0} de {1} visitados - {2}".format(self.visitados, self.visitas, (100*self.visitados)/self.visitas)
-                p.vizinhos = self.consultar_regiao(p, eps)
-#                 print "vizinhos de {0} :".format(p.id);
-#                 for v in p.vizinhos:
-#                     print "{}".format(v.id);
-                if(len(p.vizinhos) < min_points):
+                vizinhos = self.consultar_regiao(p, eps)
+                if(len(vizinhos) < min_points):
                     p.tipo = "NOISE"
-#                     print "Oi sou o ponto {} sou um NOISE".format(p.id)
                 else:
                     cluster = []
                     clusters.append(cluster)
-                    self.expandir_cluster(p, cluster, eps, min_points, indice_cluster)
+                    self.expandir_cluster(p, vizinhos, cluster, eps, min_points, indice_cluster)
                     indice_cluster+=1
-                    print len(cluster)
                            
         x = 0
         for c in clusters:
