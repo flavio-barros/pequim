@@ -8,6 +8,7 @@ import psycopg2
 from modelo.Ponto import Ponto
 from modelo.Aresta import Aresta
 from gi.overrides.keysyms import cursor
+from modelo.Vertice import Vertice
 
 class Conexao(object):
 
@@ -32,7 +33,7 @@ class Conexao(object):
         conexao = Conexao().criar_conexao()
         cursor = conexao.cursor()
         day = 3
-        sql = "select id, id_taxista, longitude, latitude from taxistas where extract(day from hora) = {}".format(day)
+        sql = "select id, id_taxista, longitude, latitude from taxistas where extract(day from hora) = {} limit 1000".format(day)
         
         cursor.execute(sql)
         
@@ -52,7 +53,7 @@ class Conexao(object):
         conexao = Conexao().criar_conexao()
         cursor = conexao.cursor()
         
-        sql = "select v1.longitude, v1.latitude,v2.longitude, v2.latitude, e.distancia from estradas e, vertices v1, vertices v2 where e.origem = v1.id and e.destino = v2.id";
+        sql = "select v1.id, v1.longitude, v1.latitude, v2.id, v2.longitude, v2.latitude, e.distancia from estradas e, vertices v1, vertices v2 where e.origem = v1.id and e.destino = v2.id limit 1000";
         cursor.execute(sql)
        
         arestasbd = cursor.fetchall()
@@ -61,11 +62,8 @@ class Conexao(object):
         self.encerrar_conexao(conexao)
    
         for a in arestasbd:
-            aresta = Aresta(a[0], a[1], a[2], a[3], a[4])
+            vertice_origem = Vertice(a[0], a[1], a[2])
+            vertice_destino = Vertice(a[3], a[4], a[5])
+            aresta = Aresta(vertice_origem, vertice_destino, a[6])
             arestas.append(aresta)
         return arestas
-               
-       
-        
-        
-        

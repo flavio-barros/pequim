@@ -29,13 +29,13 @@ class MapMatching(object):
             return abs(distancia)
     
     def matching(self, ponto, arestas):
-        menor_distancia = self.distancia_perpendicular(ponto, arestas[0].origem_x, arestas[0].origem_y, arestas[0].destino_x, arestas[0].destino_y)
+        menor_distancia = self.distancia_perpendicular(ponto, arestas[0].origem.longitude_x, arestas[0].origem.latitude_y, arestas[0].destino.longitude_x, arestas[0].destino.latitude_y)
         aresta = arestas[0]
     
         for a in arestas:
-            
-            if(self.distancia_perpendicular(ponto, a.origem_x, a.origem_y, a.destino_x, a.destino_y) < menor_distancia):
-                menor_distancia = self.distancia_perpendicular(ponto, a.origem_x, a.origem_y, a.destino_x, a.destino_y)
+            distancia = self.distancia_perpendicular(ponto, a.origem.longitude_x, a.origem.latitude_y, a.destino.longitude_x, a.destino.latitude_y)
+            if(distancia < menor_distancia):
+                menor_distancia = distancia
                 aresta = a 
                 
         return aresta
@@ -44,7 +44,8 @@ class MapMatching(object):
         count = 0
         for p in pontos:
             aresta = self.matching(p, arestas)
-            p.longitudeX = aresta.origem_x
-            p.latitudeY = aresta.origem_y
+            p.longitudeX = aresta.origem.longitude_x
+            p.latitudeY = aresta.origem.latitude_y
+            p.id_vertice = aresta.origem.id_vertice
             print"{}".format(count)
             count+=1   

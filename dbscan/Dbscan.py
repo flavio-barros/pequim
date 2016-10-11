@@ -34,7 +34,7 @@ class Dbscan(object):
 #             elif(abs(ponto.latitudeY - p.latitudeY) > eps):
 #                 continue
 #             el
-            if(Distancia().euclidiana(ponto, p) <= eps):
+            if(Distancia().menor_caminho(ponto, p, self.arestas) <= eps):
                 vizinhos.append(p)
         
         return vizinhos
@@ -58,8 +58,9 @@ class Dbscan(object):
                 p.pertence_cluster = True
                 p.cluster = cluster
     
-    def db_scan(self, data_set, eps, min_points):
+    def db_scan(self, data_set, eps, min_points, arestas):
         self.pontos = data_set  
+        self.arestas = arestas
         self.v = 0 
         cluster = 0;    
         for p in data_set:
