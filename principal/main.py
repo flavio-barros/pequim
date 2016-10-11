@@ -14,8 +14,8 @@ def main():
     
     print "Recuperando pontos"
     data_set = Conexao().recuperar_pontos()
-    eps = 0.0005
-    min_points = 25
+    eps = 0.05
+    min_points = 6
     
     print "Recuperando arestas"
     arestas = Conexao().recuperar_arestas()

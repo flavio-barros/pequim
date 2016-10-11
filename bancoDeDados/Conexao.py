@@ -32,7 +32,7 @@ class Conexao(object):
         conexao = Conexao().criar_conexao()
         cursor = conexao.cursor()
         day = 3
-        sql = "select id, id_taxista, longitude, latitude from taxistas where extract(day from hora) = {}".format(day)
+        sql = "select id, id_taxista, longitude, latitude from taxistas where extract(day from hora) = {} limit 2000".format(day)
         
         cursor.execute(sql)
         
@@ -52,7 +52,7 @@ class Conexao(object):
         conexao = Conexao().criar_conexao()
         cursor = conexao.cursor()
         
-        sql = "select v1.longitude, v1.latitude,v2.longitude, v2.latitude, e.distancia from estradas e, vertices v1, vertices v2 where e.origem = v1.id and e.destino = v2.id";
+        sql = "select v1.longitude, v1.latitude,v2.longitude, v2.latitude, e.distancia from estradas e, vertices v1, vertices v2 where e.origem = v1.id and e.destino = v2.id limit 2000";
         cursor.execute(sql)
        
         arestasbd = cursor.fetchall()

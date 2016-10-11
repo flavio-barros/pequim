@@ -8,7 +8,6 @@ import math
 class Distancia(object):
 
 
-
     def __init__(self):
         '''
         Constructor
@@ -17,3 +16,7 @@ class Distancia(object):
     def euclidiana(self, ponto1, ponto2):
         if(ponto1 != Null and ponto2 != Null):
             return math.hypot(ponto1.longitudeX - ponto2.longitudeX, ponto1.latitudeY - ponto2.latitudeY)
+        
+        
+    
+    def menor_caminho(self):
